@@ -33,16 +33,19 @@ public class CashierMenuBar extends MenuBar{
         // Menangani aksi ketika menu dipilih
         viewReceiptsItem.setOnAction(e -> {
             // Tambahkan logika untuk menangani aksi "View Receipts" di sini
+        	openViewReceipts(stage);
             System.out.println("View Receipts");
         });
 
         viewOrderDetailsItem.setOnAction(e -> {
             // Tambahkan logika untuk menangani aksi "View Order Details" di sini
+        	openOrderView(stage);
             System.out.println("View Order Details");
         });
 
         processOrderPaymentItem.setOnAction(e -> {
             // Tambahkan logika untuk menangani aksi "Process Order Payment" di sini
+        	
             System.out.println("Process Order Payment");
         });
 
@@ -50,5 +53,24 @@ public class CashierMenuBar extends MenuBar{
             // Tambahkan logika untuk menangani aksi "Logout" di sini
             System.out.println("Logout");
         });
+       
+    }
+    
+    //Open ReceiptView
+    private void openViewReceipts(Stage stage) {
+    	ReceiptView receiptView = new ReceiptView(stage);
+    	receiptView.showReceiptView();
+    }
+    
+    //Open ReceiptOrderView
+    private void openOrderView(Stage stage) {
+    	ReceiptOrderView receiptOrderView = new ReceiptOrderView(stage);
+    	receiptOrderView.showReceiptOrderView();
+    }
+    
+    //Open ProcessPaymentView
+    private void openProcessPayment(Stage stage) {
+    	ProcessPaymentView processPaymentView = new ProcessPaymentView(stage);
+    	processPaymentView.showProcessPaymentView();
     }
 }
