@@ -2,6 +2,7 @@ package view;
 
 import java.sql.Date;
 
+import controller.ReceiptController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,8 +19,9 @@ import model.Receipt;
 public class ReceiptView {
     private TextField idInput = new TextField();
     private TableView<Receipt> table;
-    private Button showDetailsButton;
+    private Button showDetailsButton, searchButton;
     private Stage stage;
+    private ReceiptController receiptController;
 
     private ReceiptDetailsView detailsView; // Menambahkan instance ReceiptDetailsView
 
@@ -40,8 +42,12 @@ public class ReceiptView {
         TableColumn<Receipt, String> typeColumn = new TableColumn<>("Payment Type");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("ReceiptPaymentType"));
         typeColumn.setMinWidth(150); 
+        
+        TableColumn<Receipt, Number> orderColumn = new TableColumn<>("Order ID");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("OrderID"));
+        typeColumn.setMinWidth(150); 
 
-        table.getColumns().addAll(idColumn, amountColumn, dateColumn, typeColumn);
+        table.getColumns().addAll(idColumn, amountColumn, dateColumn, typeColumn, orderColumn);
 
         // Menambahkan listener untuk menanggapi klik pada baris
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -59,9 +65,12 @@ public class ReceiptView {
         GridPane form = new GridPane();
         form.setVgap(20);
         form.setHgap(10);
-
+        
+        receiptController.loadReceiptData();
+        
         showDetailsButton = new Button("Show Details");
         showDetailsButton.setDisable(true);
+        searchButton = new Button("Search Receipt");
 
         form.add(new Label("Receipt ID"), 0, 0);
         form.add(idInput, 1, 0);
@@ -73,6 +82,11 @@ public class ReceiptView {
             if (selectedReceipt != null) {
                 detailsView.showReceiptDetailsView(selectedReceipt);
             }
+            
+        });
+        searchButton.setOnAction(e -> {
+        	String id = idInput.getText();
+        	receiptController.loadSearchedReceipt(id);
         });
 
         return form;
@@ -92,6 +106,7 @@ public class ReceiptView {
 
         table = createReceiptTable();
         GridPane form = createReceiptForm();
+        
 
         VBox.setMargin(form, new Insets(20));
         root.getChildren().addAll(table, form);
@@ -101,4 +116,14 @@ public class ReceiptView {
         stage.setTitle("View Receipt");
         stage.show();
     }
+
+	public TableView<Receipt> getTable() {
+		return table;
+	}
+
+	public void setTable(TableView<Receipt> table) {
+		this.table = table;
+	}
+    
+    
 }
