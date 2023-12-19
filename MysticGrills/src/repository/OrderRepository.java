@@ -18,13 +18,15 @@ public class OrderRepository {
 	}
 	
 	public void addOrder(Order order) {
-		String query = String.format("INSERT INTO orders VALUES (%d, \"%s\", \"%s\", \"%s\", %d)"); 
+		String query = String.format("INSERT INTO orders VALUES (%d, \"%s\", \"%s\", %d, %d, \"%s\")"); 
         try {
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setInt(1, order.getOrderID());
-            ps.setString(2, order.getOrderUser());
-            ps.setDate(3, order.getOrderDate());
-            ps.setInt(4, order.getOrderTotal());
+            ps.setString(2, order.getOrderName());
+            ps.setString(3, order.getOrderStatus());
+            ps.setDate(4, order.getOrderDate());
+            ps.setInt(5, order.getOrderTotal());
+            ps.setString(6, order.getOrderDesc());
             connect.executeUpdate(ps);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,12 +45,13 @@ public class OrderRepository {
 			while(resultSet.next()) {
 				System.out.println("Masuk");
 				int orderID = resultSet.getInt("OrderID");
-				String orderUser = resultSet.getString("OrderUser");
+				String orderName = resultSet.getString("OrderName");
 				String orderStatus = resultSet.getString("OrderStatus");
 				Date orderDate = resultSet.getDate("OrderDate");
 				int orderTotal = resultSet.getInt("OrderTotal");
+				String orderDesc = resultSet.getString("OrderDesc");
 				
-				orders.add(new Order(orderID, orderUser, orderStatus, orderDate, orderTotal));
+				orders.add(new Order(orderID, orderName, orderStatus, orderDate, orderTotal, orderDesc));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -69,12 +72,13 @@ public class OrderRepository {
 
 	        if (resultSet.next()) {
 	            int orderID = resultSet.getInt("OrderID");
-	            String orderUser = resultSet.getString("OrderUser");
+	            String orderName = resultSet.getString("OrderName");
 	            String orderStatus = resultSet.getString("OrderStatus");
 	            Date orderDate = resultSet.getDate("OrderDate");
 	            int orderTotal = resultSet.getInt("OrderTotal");
+	            String orderDesc = resultSet.getString("OrderDesc");
 
-	            order = new Order(orderID, orderUser, orderStatus, orderDate, orderTotal);
+	            order = new Order(orderID, orderName, orderStatus, orderDate, orderTotal, orderDesc);
 	        }
 
 	    } catch (SQLException e) {
@@ -100,4 +104,20 @@ public class OrderRepository {
 	        }
 	    }
 	}
+	
+    public void deleteOrder(Order order) {
+        if (order != null) {
+            String query = "DELETE FROM orders WHERE OrderID = ?";
+
+            try {
+                PreparedStatement ps = connect.prepareStatement(query);
+                ps.setInt(1, order.getOrderID());
+                connect.executeUpdate(ps);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // TODO: handle exception
+            }
+        }
+    }
 }
