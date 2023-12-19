@@ -11,7 +11,7 @@ public class CashierMenuBar extends MenuBar{
 	
     public void showCashierMenuBar() {
         VBox page = new VBox(10);
-        page.getChildren().addAll(this); // Menambahkan AdminMenuBar ke VBox
+        page.getChildren().addAll(this); // Menambahkan CashierMenuBar ke VBox
 
         Scene scene = new Scene(page, 300, 300);
         Stage newStage = new Stage();
@@ -56,11 +56,12 @@ public class CashierMenuBar extends MenuBar{
 
         processOrderPaymentItem.setOnAction(e -> {
             // Tambahkan logika untuk menangani aksi "Process Order Payment" di sini
-            System.out.println("Process Order Payment");
+        	openProcessPayment(stage);
         });
 
         logoutItem.setOnAction(e -> {
             // Tambahkan logika untuk menangani aksi "Logout" di sini
+        	handleLogout(stage);
             System.out.println("Logout");
         });
         
@@ -74,6 +75,26 @@ public class CashierMenuBar extends MenuBar{
 	
 	private void openViewOrderPage(Stage stage) {
 		OrderView orderView = new OrderView(stage);
-		orderView.showOrderView();
+		orderView.showReceiptOrderView();
 	}
+	
+    //Open ProcessPaymentView
+    private void openProcessPayment(Stage stage) {
+    	ProcessPaymentView processPaymentView = new ProcessPaymentView(stage);
+    	processPaymentView.showProcessPaymentView();
+    }
+    
+    private void handleLogout(Stage stage) {
+    	//Tutup AdminMenuBar
+    	Stage currentStage = (Stage) this.getScene().getWindow(); 
+        currentStage.close();
+    	
+    	// Setelah logout, buat objek UnauthorizedMenuBar yang baru
+        UnauthorizedMenuBar unauthorizedMenuBar = new UnauthorizedMenuBar(stage);
+
+        // Menampilkan UnauthorizedMenuBar yang baru
+        Scene scene = new Scene(new VBox(unauthorizedMenuBar), 300, 300);
+        stage.setScene(scene);
+        stage.show();
+    }
 }
