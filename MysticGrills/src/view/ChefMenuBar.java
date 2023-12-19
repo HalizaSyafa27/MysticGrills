@@ -48,7 +48,16 @@ public class ChefMenuBar extends MenuBar {
 
 	private void handleLogout(Stage stage) {
 		// TODO Auto-generated method stub
-		
+        Stage currentStage = (Stage) this.getScene().getWindow(); 
+        currentStage.close();
+    	
+    	// Setelah logout, buat objek UnauthorizedMenuBar yang baru
+        UnauthorizedMenuBar unauthorizedMenuBar = new UnauthorizedMenuBar(stage);
+
+        // Menampilkan UnauthorizedMenuBar yang baru
+        Scene scene = new Scene(new VBox(unauthorizedMenuBar), 300, 300);
+        stage.setScene(scene);
+        stage.show();
 	}
 
 	private void openViewPendingOrderPage(Stage stage) {
