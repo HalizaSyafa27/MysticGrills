@@ -10,7 +10,7 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private String id;
+    private int id;
 
     public User(String username, String email, String password, String role) {
         this.username = username;
@@ -19,7 +19,13 @@ public class User {
         this.role = role;
     }
 
-    public String getUsername() {
+    public User(int id, String username, String role) {
+		this.id = id;
+		this.username = username;
+		this.role = role;
+	}
+
+	public String getUsername() {
         return username;
     }
 
@@ -50,8 +56,12 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+    
+    public int getId() {
+    	return id;
+    }
 
-    // Tambahkan metode untuk menyimpan user ke database
+    // Untuk menyimpan user ke database
     public boolean saveToDatabase(Connect connect) {
         String query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
         try {
@@ -68,14 +78,13 @@ public class User {
         }
     }
 
-    // Tambahkan metode untuk mengambil user dari database berdasarkan email
+    // Untuk mengambil user dari database berdasarkan email
     public static User loadFromDatabase(String email, Connect connect) {
         String query = "SELECT * FROM users WHERE email = ?";
         try {
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setString(1, email);
             ResultSet rs = connect.executeQuery(ps.toString());
-//            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 String username = rs.getString("username");
@@ -95,7 +104,7 @@ public class User {
         try {
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery(); // Menggunakan ps.executeQuery() tanpa konversi ke string
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getString("role");
@@ -105,7 +114,4 @@ public class User {
         }
         return null;
     }
-
-
-
 }
