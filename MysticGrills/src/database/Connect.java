@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public final class Connect {
 
  private final String USERNAME = "root";
@@ -32,6 +33,14 @@ public final class Connect {
    System.exit(0);
   }
  }
+ 
+ public static Connect getInstance() {
+		if(connect == null) {
+			connect = new Connect();
+		}
+		
+		return connect;
+	}
 
  public static synchronized Connect getConnection() {
   return connect = (connect == null) ? new Connect() : connect;
@@ -67,4 +76,25 @@ public final class Connect {
          e.printStackTrace();
      }
  }
+ 
+	public ResultSet execQuery(String query) {
+		try {
+			rs = st.executeQuery(query);
+	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	public void execUpdate(String query) {
+		try {
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
