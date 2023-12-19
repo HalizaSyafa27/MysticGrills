@@ -19,7 +19,7 @@ public final class Connect {
  private static Connection con;
  private Statement st;
  private static Connect connect;
- private ResultSet rs;
+ public ResultSet rs;
 
  //private karena akan diterapkan konsep Singleton
  public Connect() {
