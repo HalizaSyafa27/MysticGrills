@@ -22,7 +22,8 @@ public class OrderView {
     public OrderView(Stage stage) {
         this.stage = stage;
     }
-
+    
+    //View buat customer
     public void showOrderView() {
         VBox root = new VBox();
 
@@ -31,6 +32,21 @@ public class OrderView {
 
         VBox.setMargin(form, new Insets(20));
         root.getChildren().addAll(table, form);
+
+        Scene scene = new Scene(root, 800, 600);
+        stage.setScene(scene);
+        stage.setTitle("View Order");
+        stage.show();
+    }
+    
+    
+    //View buat cashier
+    public void showReceiptOrderView() {
+        VBox root = new VBox();
+
+        table = createOrderTable();
+
+        root.getChildren().addAll(table);
 
         Scene scene = new Scene(root, 800, 600);
         stage.setScene(scene);
