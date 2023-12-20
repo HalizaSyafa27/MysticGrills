@@ -24,10 +24,10 @@ public class MenuItemManagementRepository {
 	    
 	    try {
 	        while (resultSet.next()) {
-	            int id = resultSet.getInt("ID");
-	            String name = resultSet.getString("Name");
-	            String desc = resultSet.getString("Description");
-	            int price = resultSet.getInt("Price");
+	            int id = resultSet.getInt("ItemID");
+	            String name = resultSet.getString("MenuName");
+	            String desc = resultSet.getString("MenuDescription");
+	            int price = resultSet.getInt("MenuPrice");
 	            
 	            Menu menu = new Menu(id, name, desc, price);
 	            menus.add(menu);
@@ -42,7 +42,7 @@ public class MenuItemManagementRepository {
 	
 	//Untuk menambahkan menu baru ke database
 	public void addMenuItem(Menu menu) {
-		String query = "INSERT INTO Menu (name, description, price) VALUES (?, ?, ?)";
+		String query = "INSERT INTO Menu (MenuName, MenuDescription, MenuPrice) VALUES (?, ?, ?)";
 		try {
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setString(1, menu.getName());
@@ -57,19 +57,19 @@ public class MenuItemManagementRepository {
 	
 	//Untuk memperbarui data menu ke dalam database
 	public void updateMenu(Menu menu) {
-        String query = "UPDATE menu SET Name = ?, Description = ?, Price = ? WHERE ID = ?";
-        try {
-            PreparedStatement ps = connect.prepareStatement(query);
-            ps.setString(1, menu.getName());
-            ps.setString(2, menu.getDesc());
-            ps.setInt(3, menu.getPrice());
-            ps.setInt(4, menu.getId());
-            connect.executeUpdate(ps);
-        } catch (SQLException e) {
-            e.printStackTrace();
-         // TODO: handle exception
-        }
-    }
+	    String query = "UPDATE menu SET MenuName = ?, MenuDescription = ?, MenuPrice = ? WHERE ItemID = ?";
+	    try {
+	        PreparedStatement ps = connect.prepareStatement(query);
+	        ps.setString(1, menu.getName());
+	        ps.setString(2, menu.getDesc());
+	        ps.setInt(3, menu.getPrice());
+	        ps.setInt(4, menu.getId());
+	        connect.executeUpdate(ps);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        // TODO: handle exception
+	    }
+	}
 	
 	//Untuk menghapus menu dari database
 	public void deleteMenu(int id) {
