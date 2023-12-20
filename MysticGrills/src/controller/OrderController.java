@@ -53,32 +53,36 @@ public class OrderController {
 		}
 	}
 
-//
 	public void handleAdd(Order order) {
-//  // Implementasi logika untuk menyimpan order ke database
+	// Implementasi logika untuk menyimpan order ke database
 		orderRepository.addOrder(order);
 	}
 
-//
+
 	public List<Order> getAllOrders() {
-//  // Implementasi logika untuk mendapatkan semua order dari database
+	// Implementasi logika untuk mendapatkan semua order dari database
 		return orderRepository.getAllOrders();
 	}
 
 	public List<Order> getAllPendingOrders() {
         // Implementasi logika untuk mendapatkan semua pending order dari database
        		return orderRepository.getAllPendingOrders();
-    }
-//	
+    	}
+
+	public List<Order> getAllPreparedOrders() {
+        // Implementasi logika untuk mendapatkan semua prepared order dari database
+       		return orderRepository.getAllPreparedOrders();
+    	}
+	
 	public Order getOrderById() {
-//  // Implementasi logika untuk mendapatkan order berdasarkan ID dari database
+	// Implementasi logika untuk mendapatkan order berdasarkan ID dari database
 		return orderRepository.getOrderById(orderId);
 	}
 
 	public void handleDelete() {
-//// Implementasi logika untuk menghapus order dari database
+	// Implementasi logika untuk menghapus order dari database
 		Order order = orderRepository.getOrderById(orderId);
-//
+
 		if (order != null) {
 			orderRepository.deleteOrder(order);
 			System.out.println("Order dengan ID " + orderId + " berhasil dihapus.");
