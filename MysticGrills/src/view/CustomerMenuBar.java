@@ -58,9 +58,9 @@ public class CustomerMenuBar extends MenuBar {
 	
 	private void openMenuItemsPage(Stage stage) {
 		// Isi program : 
-		// 1. liat semua menu items
+		// 1. liat semua menu items 
 		// 2. pilih menu -> masukin quantity -> klik order
-		// setelah user klik order arahin ke page order
+		// Menunjukkan user setelah klik order arahin ke page order
 		ListView<String> menuListView = new ListView<>();
 		menuListView.getItems().addAll("Menu Items 1", "Menu Items 2", "Menu Items 3");
 
