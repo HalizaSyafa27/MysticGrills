@@ -65,7 +65,11 @@ public class OrderController {
 		return orderRepository.getAllOrders();
 	}
 
-//
+	public List<Order> getAllPendingOrders() {
+        // Implementasi logika untuk mendapatkan semua pending order dari database
+       		return orderRepository.getAllPendingOrders();
+    }
+//	
 	public Order getOrderById() {
 //  // Implementasi logika untuk mendapatkan order berdasarkan ID dari database
 		return orderRepository.getOrderById(orderId);
