@@ -84,6 +84,12 @@ public class LoginView{
             } else if("cashier".equalsIgnoreCase(userRole)) {
             	CashierMenuBar cashierMenuBar = new CashierMenuBar(stage);
             	cashierMenuBar.showCashierMenuBar();		
+            } else if("chef".equalsIgnoreCase(userRole)) {
+            	ChefMenuBar chefMenuBar = new ChefMenuBar(stage);
+            	ChefMenuBar.showchefMenuBar();		
+            } else if("waiter".equalsIgnoreCase(userRole)) {
+            	WaiterMenuBar waiterMenuBar = new WaiterMenuBar(stage);
+            	waiterMenuBar.showWaiterMenuBar();		
             }
             stage.close();
         } else {
