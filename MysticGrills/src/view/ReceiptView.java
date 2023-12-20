@@ -66,7 +66,7 @@ public class ReceiptView {
         form.setVgap(20);
         form.setHgap(10);
         
-        receiptController.loadReceiptData();
+        receiptController.getreceiptData();
         
         showDetailsButton = new Button("Show Details");
         showDetailsButton.setDisable(true);
@@ -86,7 +86,7 @@ public class ReceiptView {
         });
         searchButton.setOnAction(e -> {
         	String id = idInput.getText();
-        	receiptController.loadSearchedReceipt(id);
+        	receiptController.loadSearchedReceipt();
         });
 
         return form;
