@@ -1,5 +1,6 @@
 package view;
 
+import java.util.List;
 import controller.MenuItemManagementController;
 import controller.OrderController;
 import javafx.event.EventHandler;
@@ -108,22 +109,25 @@ public class OrderPrepareView {
     @SuppressWarnings("unchecked")
 	private void setTable() {
 		TableColumn<Order, Integer> idColumn = new TableColumn<Order, Integer>("Order ID");
-		idColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("id"));  //bwt nambahin data ke table
+		idColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("OrderID"));  //bwt nambahin data ke table
 		idColumn.setMinWidth(scrollPane.getWidth() / 4);
 		
 		TableColumn<Order, String> nameColumn = new TableColumn<Order, String>("Order Name");
-		nameColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("name"));  //bwt nambahin data ke table
+		nameColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("OrderName"));  //bwt nambahin data ke table
 		nameColumn.setMinWidth(scrollPane.getWidth() / 4);
 		
 		TableColumn<Order, String> descColumn = new TableColumn<Order, String>("Description");
-		descColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("desc"));
+		descColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("OrderDesc"));
 		descColumn.setMinWidth(scrollPane.getWidth() / 4);
 		
 		TableColumn<Order, Integer> statusColumn = new TableColumn<Order, Integer>("Status");
-		statusColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("status"));
+		statusColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("OrderStatus"));
 		statusColumn.setMinWidth(scrollPane.getWidth() / 4);
 		
 	    orderTable.getColumns().addAll(idColumn, nameColumn, descColumn, statusColumn);
+	    
+	    List<Order> preparedOrders = orderController.getAllPreparedOrders();
+	    orderTable.getItems().addAll(preparedOrders);
 	    orderTable.setOnMouseClicked(tableMouseEvent());
 	}
     
