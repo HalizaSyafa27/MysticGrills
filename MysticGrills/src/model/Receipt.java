@@ -1,34 +1,113 @@
 package model;
 
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.Connect;
+
 public class Receipt {
 	private int ReceiptID;
-	private String ReceiptOrder;
 	private int ReceiptPaymentAmount;
-	private String ReceiptPaymentDate;
+	private Date ReceiptPaymentDate;
 	private String ReceiptPaymentType;
-	private List<ReceiptItem> items;
+	private int OrderID;
+	private static List<OrderItem> items;
 	
-	public Receipt(int receiptID, String receiptOrder, int receiptPaymentAmount, String receiptPaymentDate,
-			String receiptPaymentType, List<ReceiptItem> items) {
+	public Receipt(int receiptID, int receiptPaymentAmount, Date receiptPaymentDate,
+			String receiptPaymentType, int orderID) {
 		super();
 	    this.ReceiptID = receiptID;
-	    this.ReceiptOrder = receiptOrder;
 	    this.ReceiptPaymentAmount = receiptPaymentAmount;
 	    this.ReceiptPaymentDate = receiptPaymentDate;
 	    this.ReceiptPaymentType = receiptPaymentType;
-	    this.items = new ArrayList<>(items); // Inisialisasi dengan nilai parameter
+	    this.OrderID = orderID;
+	}
+	
+
+	//Method mengambil receipt details
+	public static ArrayList<OrderItem> getOrderItems(String id) {
+		ArrayList<OrderItem> orderItems = new ArrayList<>();
+		
+		Connect con = Connect.getInstance();
+		
+		String query = String.format("SELECT * FROM `orderitems` WHERE `OrderID` = \'%s\'", id);
+		
+		con.rs = con.execQuery(query);
+		
+		try {
+			System.out.println("Print");
+			String itemName= con.rs.getString("ItemName");
+			int price = con.rs.getInt("Price");
+			int quantity = con.rs.getInt("Quantity");
+			orderItems.add(new OrderItem(itemName, price, quantity));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return orderItems;
+	}
+	
+	//Get All Receipts
+	public static ArrayList<Receipt> getAllReceipts(){
+		
+		ArrayList<Receipt> receipts = new ArrayList<>();
+		Connect con = Connect.getInstance();
+		
+		String query = "SELECT * FROM receipts";
+		
+
+		con.rs = con.execQuery(query);
+		
+		try {
+			while(con.rs.next()) {
+				System.out.println("getallreceipt");
+				int receiptID = con.rs.getInt("ReceiptID");
+				int receiptPaymentAmount = con.rs.getInt("ReceiptPaymentAmount");
+				Date receiptPaymentDate = con.rs.getDate("ReceiptPaymentDate");
+				String receiptPaymentType = con.rs.getString("ReceiptPaymentType");
+				int orderID = con.rs.getInt("OrderID");
+				receipts.add(new Receipt(receiptID, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType, orderID));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return receipts;
+		
+	}
+	
+	//get receipt by receiptID
+	public static ArrayList<Receipt> getReceipt(String id) {
+		ArrayList<Receipt> singleReceipt = new ArrayList<>();
+		
+		Connect con = Connect.getInstance();
+		
+		String query = String.format("SELECT * FROM `receipts` WHERE `ReceiptID` = \'%s\'", id);
+		
+
+		con.rs = con.execQuery(query);
+		
+				try {
+					System.out.println("Print");
+					int receiptID = con.rs.getInt("ReceiptID");
+					int receiptPaymentAmount = con.rs.getInt("ReceiptPaymentAmount");
+					Date receiptPaymentDate = con.rs.getDate("ReceiptPaymentDate");
+					String receiptPaymentType = con.rs.getString("ReceiptPaymentType");
+					int orderID = con.rs.getInt("OrderID");
+					singleReceipt.add(new Receipt(receiptID, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType, orderID));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+		return singleReceipt;
 	}
 
-	public String getReceiptOrder() {
-		return ReceiptOrder;
-	}
 
-	public void setReceiptOrder(String receiptOrder) {
-		ReceiptOrder = receiptOrder;
-	}
 
 	public int getReceiptPaymentAmount() {
 		return ReceiptPaymentAmount;
@@ -38,11 +117,11 @@ public class Receipt {
 		ReceiptPaymentAmount = receiptPaymentAmount;
 	}
 
-	public String getReceiptPaymentDate() {
+	public Date getReceiptPaymentDate() {
 		return ReceiptPaymentDate;
 	}
 
-	public void setReceiptPaymentDate(String receiptPaymentDate) {
+	public void setReceiptPaymentDate(Date receiptPaymentDate) {
 		ReceiptPaymentDate = receiptPaymentDate;
 	}
 
@@ -62,12 +141,13 @@ public class Receipt {
 		ReceiptID = receiptID;
 	}
 	
-    public List<ReceiptItem> getItems() {
+    public List<OrderItem> getItems() {
         return items;
     }
 
     // Metode untuk menambahkan item ke daftar
-    public void addItem(ReceiptItem item) {
+    public static List<OrderItem> addItem(OrderItem item) {
         items.add(item);
+		return items;
     }
 }
