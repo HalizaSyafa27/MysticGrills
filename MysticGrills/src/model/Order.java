@@ -23,6 +23,13 @@ public class Order {
 		this.orderItems = new ArrayList<>();
 	}
 
+	public Order(int orderID, String orderName, String orderDesc, String orderStatus) {
+		OrderID = orderID;
+		OrderName = orderName;
+		OrderDesc = orderDesc;
+		OrderStatus = orderStatus;
+	}
+
 	public int getOrderID() {
 		return OrderID;
 	}
