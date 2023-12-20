@@ -13,6 +13,7 @@ public class ReceiptController {
 	
 	private ReceiptRepository receiptRepo;
 	private ReceiptDetailsView rdv;
+	String id;
 		
 	//receipt detail
 	public void loadReceiptDetail(String id) {
@@ -22,7 +23,8 @@ public class ReceiptController {
 	}
 	
 	//get searched
-	public Receipt loadSearchedReceipt(String id) {
+	public Receipt loadSearchedReceipt() {
+		
 		return (Receipt) receiptRepo.getReceipt(id);
 	}
 	
@@ -33,7 +35,7 @@ public class ReceiptController {
 	}
 	
 	public ReceiptController(ReceiptView receiptView) {
-		this.receiptView = receiptView;
+		this.receiptRepo = new ReceiptRepository();
 	}
 }
 
