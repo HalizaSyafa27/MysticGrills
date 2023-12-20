@@ -45,14 +45,15 @@ public class OrderDetailView {
         form.add(new Label("Order ID:"), 0, 0);
         form.add(new Label(String.valueOf(selectedOrder.getOrderID())), 1, 0);
 
-        form.add(new Label("User:"), 0, 1);
-        form.add(new Label(selectedOrder.getOrderUser()), 1, 1);
+        form.add(new Label("Namer:"), 0, 1);
+        form.add(new Label(selectedOrder.getOrderName()), 1, 1);
 
         form.add(new Label("Status:"), 0, 2);
         form.add(new Label(selectedOrder.getOrderStatus()), 1, 2);
 
-        form.add(new Label("Quantity:"), 0, 3);
-        form.add(new Label(String.valueOf(selectedOrder.getOrderQuantity())), 1, 3);
+        form.add(new Label("Date:"), 0, 3);
+        form.add(new Label(String.valueOf(selectedOrder.getOrderDate())), 1, 3);
+        
 
         Button processOrderButton = new Button("Proses Order");
         form.add(processOrderButton, 0, 4);
