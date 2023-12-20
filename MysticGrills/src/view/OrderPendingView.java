@@ -123,6 +123,9 @@ public class OrderPendingView {
 		statusColumn.setMinWidth(scrollPane.getWidth() / 4);
 		
 	    orderTable.getColumns().addAll(idColumn, nameColumn, descColumn, statusColumn);
+
+	    List<Order> pendingOrders = orderController.getAllPendingOrders();
+	    orderTable.getItems().addAll(pendingOrders);
 	    orderTable.setOnMouseClicked(tableMouseEvent());
 	}
     
