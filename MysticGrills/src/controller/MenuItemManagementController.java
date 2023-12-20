@@ -3,8 +3,12 @@ package controller;
 import java.util.List;
 
 import javafx.collections.FXCollections;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import model.Menu;
+import model.Order;
+import model.OrderItem;
 import repository.MenuItemManagementRepository;
 import view.MenuItemManagementView;
 
@@ -12,7 +16,8 @@ public class MenuItemManagementController {
     private MenuItemManagementView view;
     private MenuItemManagementRepository repository;
     private TableView<Menu> menuTable;
-
+    private TextField quantityInput; 
+    
     public MenuItemManagementController(MenuItemManagementView view, MenuItemManagementRepository repository, TableView<Menu> menuTable) {
         this.view = view;
         this.repository = repository;
@@ -21,6 +26,8 @@ public class MenuItemManagementController {
         loadDataIntoTable();
     }
 
+    Label errorLabel = new Label();
+    
     // Untuk mengambil data dan di load ke table, fungsi ini jg digunakan untuk merefresh table setelah mengubah user role atau menghapus user
     private void loadDataIntoTable() {
     	 menuTable.setItems(FXCollections.observableArrayList(repository.getAllMenus()));
@@ -119,4 +126,15 @@ public class MenuItemManagementController {
         //kalo ga ada berarti namanya unik
         return true;
     }
+    
+    public void handleAddToOrder() {
+        // Implementasi logika tambahan saat menambahkan menu ke dalam pesanan
+        Menu selectedMenu = menuTable.getSelectionModel().getSelectedItem();
+        OrderController orderController = new OrderController();
+        if (selectedMenu != null) {
+            int quantity = Integer.parseInt(quantityInput.getText());
+            orderController.addToOrder(selectedMenu, quantity);
+        }
+    }
+
 }
