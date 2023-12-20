@@ -60,6 +60,30 @@ public class OrderRepository {
 		
 		return orders;
 	}
+
+	public List<Order> getAllPendingOrders(){
+		ArrayList<Order> orders = new ArrayList<>();
+		
+		String query = "SELECT * FROM orders WHERE OrderStatus = 'Pending'";
+		
+		ResultSet resultSet = connect.executeQuery(query);
+		
+		try {
+			while(resultSet.next()) {
+				int orderID = resultSet.getInt("OrderID");
+				String orderName = resultSet.getString("OrderName");
+				String orderDesc = resultSet.getString("OrderDesc");
+				String orderStatus = resultSet.getString("OrderStatus");
+				
+				orders.add(new Order(orderID, orderName, orderDesc, orderStatus));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return orders;
+	}
 	
 	public Order getOrderById(int orderId) {
 	    Order order = null;
