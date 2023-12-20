@@ -1,5 +1,6 @@
 package repository;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.Connect;
+import model.OrderItem;
 import model.Receipt;
 
 public class ReceiptRepository {
@@ -24,9 +26,8 @@ public class ReceiptRepository {
 		String query = "INSERT INTO receipts (ReceiptOrder, ReceiptPaymentAmount, ReceiptPaymentDate, ReceiptPaymentType) VALUES (?, ?, ?, ?)";
 		try {
             PreparedStatement ps = connect.prepareStatement(query);
-            ps.setString(1, receipt.getReceiptOrder());
             ps.setInt(2, receipt.getReceiptPaymentAmount());
-            ps.setString(3, receipt.getReceiptPaymentDate());
+            ps.setDate(3, receipt.getReceiptPaymentDate());
             ps.setString(5, receipt.getReceiptPaymentType());
             connect.executeUpdate(ps);
         } catch (SQLException e) {
@@ -44,7 +45,7 @@ public class ReceiptRepository {
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setInt(1, receipt.getReceiptID());
             ps.setInt(2, receipt.getReceiptPaymentAmount());
-            ps.setString(3, receipt.getReceiptPaymentDate());
+            ps.setDate(3, receipt.getReceiptPaymentDate());
             ps.setString(4, receipt.getReceiptPaymentType());
             connect.executeUpdate(ps);
         } catch (SQLException e) {
@@ -53,8 +54,10 @@ public class ReceiptRepository {
         }
 	}
 	
-	public List<Receipt> getReceipt() {
-		//ArrayList<Receipt> singleReceipt = new ArrayList<>();
+	
+	//get receipt by id
+	public List<Receipt> getReceipt(String id) {
+//		ArrayList<Receipt> singleReceipt = new ArrayList<>();
 		List<Receipt> singleReceipt = new ArrayList<>();
 //		Connect con = Connect.getInstance();
 		
@@ -66,14 +69,14 @@ public class ReceiptRepository {
 	        while (resultSet.next()) {
 	        	System.out.println("Print");
 				int receiptID = resultSet.getInt("ReceiptID");
-				String receiptOrder = resultSet.getString("ReceiptOrder");
 				int receiptPaymentAmount = resultSet.getInt("ReceiptPaymentAmount");
-				String receiptPaymentDate = resultSet.getString("ReceiptPaymentDate");
+				Date receiptPaymentDate = resultSet.getDate("ReceiptPaymentDate");
 				String receiptPaymentType = resultSet.getString("ReceiptPaymentType");
+				int orderID = resultSet.getInt("OrderID");
 	            
 //	            Receipt receipt = new Receipt(receiptID, receiptOrder, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType);
 //	            singleReceipt.add(receipt);
-				Receipt currentReceipt = new Receipt(receiptID, receiptOrder, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType, null);
+				Receipt currentReceipt = new Receipt(receiptID, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType, orderID, null);
 		        singleReceipt.add(currentReceipt);
 	        }
 	    } catch (SQLException e) {
@@ -112,11 +115,11 @@ public class ReceiptRepository {
 			while(resultSet.next()) {
 				System.out.println("Masuk");
 				int receiptID = resultSet.getInt("ReceiptID");
-				String receiptOrder = resultSet.getString("ReceiptOrder");
 				int receiptPaymentAmount = resultSet.getInt("ReceiptPaymentAmount");
-				String receiptPaymentDate = resultSet.getString("ReceiptPaymentDate");
+				Date receiptPaymentDate = resultSet.getDate("ReceiptPaymentDate");
 				String receiptPaymentType = resultSet.getString("ReceiptPaymentType");
-				receipts.add(new Receipt(receiptID, receiptOrder, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType, null));
+				int orderID = resultSet.getInt("OrderID");
+				receipts.add(new Receipt(receiptID, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType, orderID, null));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -125,5 +128,29 @@ public class ReceiptRepository {
 		
 		return receipts;
 		
+	}
+	
+	//Method mengambil receipt details
+	public static ArrayList<OrderItem> getOrderItems(String id) {
+		ArrayList<OrderItem> orderItems = new ArrayList<>();
+		
+		Connect con = Connect.getInstance();
+		
+		String query = String.format("SELECT * FROM `orderitems` WHERE `OrderID` = \'%s\'", id);
+		
+		con.rs = con.execQuery(query);
+		
+		try {
+			System.out.println("Print");
+			String itemName= con.rs.getString("ItemName");
+			int price = con.rs.getInt("Price");
+			int quantity = con.rs.getInt("Quantity");
+			orderItems.add(new OrderItem(itemName, price, quantity));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return orderItems;
 	}
 }
