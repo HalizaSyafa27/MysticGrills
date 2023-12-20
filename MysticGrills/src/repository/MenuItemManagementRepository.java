@@ -73,7 +73,7 @@ public class MenuItemManagementRepository {
 	
 	//Untuk menghapus menu dari database
 	public void deleteMenu(int id) {
-        String query = "DELETE FROM menu WHERE ID = ?";
+        String query = "DELETE FROM menu WHERE ItemID = ?";
         try {
             PreparedStatement ps = connect.prepareStatement(query);
             ps.setInt(1, id);
