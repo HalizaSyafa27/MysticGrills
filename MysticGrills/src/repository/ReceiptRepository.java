@@ -9,7 +9,7 @@ import repository.ReceiptRepository;
 import view.ReceiptDetailsView;
 import view.ReceiptView;
 
-public class ReceiptController {
+public class ReceiptRepository {
 	
 	private ReceiptRepository receiptRepo;
 	private ReceiptView receiptView;
