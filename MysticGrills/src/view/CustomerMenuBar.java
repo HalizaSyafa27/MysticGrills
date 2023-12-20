@@ -57,23 +57,113 @@ public class CustomerMenuBar extends MenuBar {
     }
 	
 	private void openMenuItemsPage(Stage stage) {
-		// logic : 
+		// Isi program : 
 		// 1. liat semua menu items
 		// 2. pilih menu -> masukin quantity -> klik order
 		// setelah user klik order arahin ke page order
+		ListView<String> menuListView = new ListView<>();
+		menuListView.getItems().addAll("Menu Items 1", "Menu Items 2", "Menu Items 3");
+
+		Label MenuItemsLabel = new Label("Choose Menu Items: ");
+		Label OrderLabel = new Label("Order");
+		TextField quantityField = new TextField();
+		Label quantityField = new Label("Enter Quantity: ");
+		Label LogoutLabel = new Label("Logout");
+
+		orderButton.setOnAction(e -> {
+			String selectedMenuItem = menuListView.getSelectionModel().getSelectionItem();
+			String quantity = quantityField.getText();
+
+		if (selectedMenuItem != null && !quantity.isEmpty()) {
+                	showAlert("Order Confirmation", "Ordered " + quantity + " of " + selectedMenuItem);
+        	} else {
+                	showAlert("Error", "Please choose a menu item and enter quantity.");
+        	}
+        	});
+
+       	 	// Menunjukkan layout untuk Customer Menu Bar
+         	VBox layout = new VBox(10);
+        	layout.getChildren().addAll(menuListView, chooseLabel, quantityLabel, quantityField, orderButton);
+
+        	// Membuat dan membentuk setting untuk scene
+        	Scene scene = new Scene(layout, 300, 300);
+        	stage.setScene(scene);
+        	stage.setTitle("Menu Items Page");
+        	stage.show();
+	        } 	
 	}
 	
 	private void openOrderPage(Stage stage) {
-		// logic order selanjutnya...
+		// Isi program :
+		// Untuk logic order setelah Open Menu Items Page
+        	String selectedMenuItem = "Item 1";
+        	int quantity = 2;
+
+        	// Menunjukkan komponen dari UI saat membuka pesanan
+        	Label summaryLabel = new Label("Order Summary:");
+        	Label itemLabel = new Label("Selected Items: " + selectedMenuItems);
+        	Label quantityLabel = new Label("Quantity: " + quantity);
+        	Button confirmOrderButton = new Button("Confirm Order");
+
+        	// Melakukan setting untuk konfirmasi dalam bentuk tombol klik pemesanan 
+        	confirmOrderButton.setOnAction(e -> {
+            	showAlert("Order Confirmed", "Thank you! Your order has been confirmed!");
+        	});
+
+        	// Menunjukkan bentuk layout dalam pesanan
+        	VBox layout = new VBox(10);
+        	layout.getChildren().addAll(summaryLabel, itemLabel, quantityLabel, confirmOrderButton);
+
+        	// Menunjukkan setting pada scene dalam pesanan
+        	Scene scene = new Scene(layout, 300, 200);
+        	stage.setScene(scene);
+        	stage.setTitle("Order Page");
+        	stage.show();
+    		}
 	}
 	
 	private void handleLogout(Stage stage) {
-		// login selanjutnya
-        UnauthorizedMenuBar unauthorizedMenuBar = new UnauthorizedMenuBar(stage);
+		// Isi program:
+		// Untuk melakukan login selanjutnya
+        	UnauthorizedMenuBar unauthorizedMenuBar = new UnauthorizedMenuBar(stage);
+		
+        	// Melakukan redirecting pada halaman untuk login page
+        	showLoginScreen(stage);
+    		}
 
-        // Menampilkan UnauthorizedMenuBar yang baru
-        Scene scene = new Scene(new VBox(unauthorizedMenuBar), 300, 300);
-        stage.setScene(scene);
-	}
+    	private void showLoginScreen(Stage stage) {
+        	// Menunjukan seluruh komponen UI untuk melakukan login
+        	Label titleLabel = new Label("Login");
+        	Button loginButton = new Button("Login");
+
+        	// Menunjukan untuk sistem login dengan adanya button click
+        	loginButton.setOnAction(e -> {
+            	showAlert("Login Successful", "Redirecting to customer view.");
+            	stage.close();
+       		});
+
+        	// Menunjukan layout untuk halaman login
+        	VBox layout = new VBox(10);
+        	layout.getChildren().addAll(titleLabel, loginButton);
+
+        	// Menunjukan scene yang telah melalui proses setting
+        	Scene scene = new Scene(layout, 200, 150);
+        	stage.setScene(scene);
+        	stage.setTitle("Login Page");
+        	stage.show();
+    		}
+
+        	// Menampilkan UnauthorizedMenuBar yang baru
+        	Scene scene = new Scene(new VBox(unauthorizedMenuBar), 300, 300);
+        	stage.setScene(scene);
+		}
+
+	private void showAlert(String title, String content) {
+        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        	alert.setTitle(title);
+        	alert.setHeaderText(null);
+        	alert.setContentText(content);
+        	alert.showAndWait();
+    		}
 
 }
