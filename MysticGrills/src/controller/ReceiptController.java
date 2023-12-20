@@ -1,27 +1,39 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import model.OrderItem;
 import model.Receipt;
+import repository.ReceiptRepository;
+import view.ReceiptDetailsView;
 import view.ReceiptView;
 
 public class ReceiptController {
 	
-	private ReceiptView receiptView;
-	
-	public void loadSearchedReceipt(String id) {
-		ArrayList<Receipt> searchedReceipt = Receipt.getReceipt(id);
-		receiptView.getTable().getItems().setAll(searchedReceipt);
+	private ReceiptRepository receiptRepo;
+	private ReceiptDetailsView rdv;
+		
+	//receipt detail
+	public void loadReceiptDetail(String id) {
+		ArrayList<OrderItem> receiptDetail = ReceiptRepository.getOrderItems(id);
+		rdv.getTable().getItems().setAll(receiptDetail);
+
 	}
 	
-	public void loadReceiptData() {
-		ArrayList<Receipt> receipts = Receipt.getAllReceipts();
-		receiptView.getTable().getItems().setAll(receipts);
+	//get searched
+	public Receipt loadSearchedReceipt(String id) {
+		return (Receipt) receiptRepo.getReceipt(id);
+	}
+	
+	
+	//get all
+	public List<Receipt> getreceiptData() {
+		return receiptRepo.getAllReceipts();
 	}
 	
 	public ReceiptController(ReceiptView receiptView) {
 		this.receiptView = receiptView;
-		
-		loadReceiptData();
 	}
 }
+
