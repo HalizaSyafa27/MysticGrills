@@ -86,7 +86,7 @@ public class LoginView{
             	cashierMenuBar.showCashierMenuBar();		
             } else if("chef".equalsIgnoreCase(userRole)) {
             	ChefMenuBar chefMenuBar = new ChefMenuBar(stage);
-            	ChefMenuBar.showChefMenuBar();		
+            	chefMenuBar.showChefMenuBar();		
             } else if("waiter".equalsIgnoreCase(userRole)) {
             	WaiterMenuBar waiterMenuBar = new WaiterMenuBar(stage);
             	waiterMenuBar.showWaiterMenuBar();		
